@@ -1,21 +1,50 @@
 const http = require("http");
 const fs = require("fs");
 
-// read content from the home.html file and display it broswer
-fs.readFile("home.html",(err,home) => {
+let homeContent = "";
+let projectContent = "";
 
- if(err) throw err; //throw error  anything wrong
-// create httpserver 
-  http.createServer((request, response)=>{
- //it have request and response
-   //set Header to inform the browser what content is served
-   response.writeHeader(200,{"Content-Type":"text/html"});
-   //to transmit content where  home.html
-   response.write(home);
-   response.end();
+// read home.html 
+
+fs.readFile("home.html",(err,home)=>{
+ if(err){
+ throw err;
+}
+ homeContent = home;
+});
+
+// read project.html
+
+fs.readFile("project.html",(err,project)=>{
+
+ if(err){
+ throw err;
+}
+
+projectContent = project;
+});
+
+
+// create http server with routes
+
+http.createServer((request,response)=>{
+
+ let url = request.url;
+
+ response.writeHeader(200,{"Content-Type":"text/html"});
+
+ switch(url){
+  case "/project":
+    response.write(projectContent);
+    response.end();
+    break;
+   default:
+    response.write(homeContent);
+    response.end();
+    break;
+};
 }).listen(3000);
 
-});
 
 
 
