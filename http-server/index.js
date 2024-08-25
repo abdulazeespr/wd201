@@ -1,8 +1,14 @@
 const http = require("http");
 const fs = require("fs");
+const minimist = require("minimist");
 
+// read port from command line
+let args = minimist(process.argv.slice(2));
+
+const port = args.port;
 let homeContent = "";
 let projectContent = "";
+let registrationContent = "";
 
 // read home.html 
 
@@ -24,7 +30,16 @@ fs.readFile("project.html",(err,project)=>{
 projectContent = project;
 });
 
+// read registration.html
 
+fs.readFile("registration.html",(err,registration)=>{
+
+  if(err){
+  throw err;
+}
+
+ registrationContent = registration;
+})
 // create http server with routes
 
 http.createServer((request,response)=>{
@@ -38,12 +53,16 @@ http.createServer((request,response)=>{
     response.write(projectContent);
     response.end();
     break;
+  case "/registration":
+    response.write(registrationContent);
+    response.end();
+    break;
    default:
     response.write(homeContent);
     response.end();
     break;
 };
-}).listen(3000);
+}).listen(port); //set port 
 
 
 
