@@ -1,5 +1,3 @@
-
-
 const todoList = require("../todo");
 
 const {all,markAsComplete,add}= todoList();
