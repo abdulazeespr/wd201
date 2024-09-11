@@ -121,7 +121,7 @@ module.exports = (sequelize, DataTypes) => {
       // item.dueDate === new Date().toISOString().split("T")[0]
       //       ? ""
       //       : `${item.dueDate}`;
-      return `${this.id}. ${checkbox} ${this.title} ${TodayOrNot}`;
+      return `${this.id}. ${checkbox} ${this.title} ${TodayOrNot}`.trim();
     }
   }
 
