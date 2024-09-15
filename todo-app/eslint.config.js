@@ -8,6 +8,6 @@ module.exports = [
       "no-unused-vars": "warn",
       "no-undef": "warn",
     },
-    ignores: [".models/*"],
+    ignores: [".models/*", ".migrations/*"],
   },
 ];
