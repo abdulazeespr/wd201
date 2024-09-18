@@ -10,9 +10,9 @@ app.set("view engine", "ejs");
 app.get("/", async function (request, response) {
   const allTodos = await Todo.getTodos();
   if (request.accepts("html")) {
-    response.render("index", { allTodos });
+    return response.render("index", { allTodos });
   }
-  response.json({ allTodos });
+  return response.json({ allTodos });
 });
 
 // eslint-disable-next-line no-undef
