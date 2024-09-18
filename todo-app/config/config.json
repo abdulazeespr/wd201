@@ -4,14 +4,15 @@
     "password": "azees",
     "database": "wd-todo-dev",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging":false
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
+    "username": "postgres",
+    "password": "azees",
+    "database": "wd-todo-test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "production": {
     "username": "root",
