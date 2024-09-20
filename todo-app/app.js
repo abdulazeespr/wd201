@@ -8,11 +8,13 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 
 app.get("/", async function (request, response) {
-  const allTodos = await Todo.getTodos();
+  const overdue = await Todo.overdue();
+  const dueToday = await Todo.dueToday();
+  const dueLater = await Todo.dueLater();
   if (request.accepts("html")) {
-    return response.render("index", { allTodos });
+    return response.render("index", { overdue, dueToday, dueLater });
   }
-  return response.json({ allTodos });
+  return response.json({ overdue, dueToday, dueLater });
 });
 
 // eslint-disable-next-line no-undef
