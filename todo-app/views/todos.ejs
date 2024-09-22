@@ -1,5 +1,8 @@
 <div>
-    <h5><%= title %></h5> 
+   <div class="flex gap-2">
+    <h5 class="text-base font-medium"><%= title %></h5>
+    <h5 class="bg-slate-200 font-medium px-2.5 rounded "><%= data.length %></h5> 
+  </div>
     <ul class="list-none">
         <% for (var i=0;i < data.length;i++) {%>
         <li class="Todo-item">
