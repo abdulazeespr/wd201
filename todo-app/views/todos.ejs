@@ -5,7 +5,7 @@
   </div>
     <ul class="list-none">
         <% for (var i=0;i < data.length;i++) {%>
-        <li class="Todo-Item">
+        <li class="Todo-Item" id="<%= `check-item-${data[i].id}`%>">
             <div class="flex items-center w-fit my-2 px-2 py-1 hover:bg-purple-50 rounded">
               <input type="checkbox"   <%= data[i].completed ? "checked" :"" %> id="<%= `check-item-${data[i].id}`%>" class="w-4 h-4 text-blue-600 bg-gray-100"  >
               <label for="<%= `check-item-${data[i].id}`%>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= data[i].title%></label>
