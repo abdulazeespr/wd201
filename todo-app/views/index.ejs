@@ -26,9 +26,9 @@
             </div>
     </form>
    
-     <%- include('todos.ejs',{title:"Overdue",data:overdue}) %>
-     <%- include('todos.ejs',{title:"Due Today",data:dueToday}) %>
-     <%- include('todos.ejs',{title:"Due Later",data:dueLater}) %>
+     <%- include('todos.ejs',{title:"Overdue",id:"count-overdue",data:overdue}) %>
+     <%- include('todos.ejs',{title:"Due Today",id:"count-due-today",data:dueToday}) %>
+     <%- include('todos.ejs',{title:"Due Later",id:"count-due-later",data:dueLater}) %>
 
 
     <%- include('footer.ejs') %> 
