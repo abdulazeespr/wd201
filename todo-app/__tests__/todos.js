@@ -54,16 +54,20 @@ describe("Todo Application", function () {
       .set("Accept", "application/json");
 
     const parsedGroupedResponse = JSON.parse(groupedTodoResponse.text);
-    const dueTodayCount = parsedGroupedResponse.dueToday.length;
-    const lastestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
 
+    const dueTodayCount = parsedGroupedResponse.dueToday.length;
+    console.log(dueTodayCount);
+    const lastestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
+    console.log(lastestTodo);
+
+    res = await agent.get("/");
+    csrfToken = extractCsrfToken(res);
     const markCompletedResponse = await agent
       .put(`/todos/${lastestTodo.id}`)
       .send({
         _csrf: csrfToken,
       });
 
-    console.log(markCompletedResponse);
     const parsedUpdateResponse = JSON.parse(markCompletedResponse.text);
 
     expect(parsedUpdateResponse.completed).toBe(true);

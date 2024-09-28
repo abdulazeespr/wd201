@@ -74,7 +74,7 @@ app.put("/todos/:id", async function (request, response) {
   console.log(`value is ${UpdateValue}`);
   try {
     const updatedTodo = await todo.setCompletionStatus(UpdateValue);
-    return response.json(updatedTodo);
+    return response.json({ updatedTodo });
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);
