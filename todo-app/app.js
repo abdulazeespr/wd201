@@ -26,7 +26,7 @@ app.get("/", async function (request, response) {
       csrfToken: request.csrfToken(),
     });
   }
-  return response.json({ overdue, dueToday, dueLater });
+  return response.json({ overdue, dueToday, dueLater, CompletedItems });
 });
 
 // eslint-disable-next-line no-undef

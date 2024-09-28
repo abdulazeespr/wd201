@@ -60,10 +60,10 @@
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <div class="flex gap-2 py-4">
               <div class="flex-auto">
-                <input type="text"  name="title"  placeholder="What's next ?" class="border border-gray-300 text-grey-900 w-full p-2 text-sm rounded "/>
+                <input type="text"  name="title"  placeholder="What's next ?" class="border border-gray-300 text-grey-900 w-full p-2 text-sm rounded " required/>
               </div>
               <div class="flex-auto">
-                <input type="date" name="dueDate"  class="border border-gray-300 text-grey-900 w-full p-2 text-sm rounded  leading-4" />
+                <input type="date" name="dueDate"  class="border border-gray-300 text-grey-900 w-full p-2 text-sm rounded  leading-4" required/>
               </div>
               <div class="flex-none">
                 <button type="submit" class="bg-green-600 text-white px-5 py-1.5 rounded font-medium">Add</button>

@@ -43,7 +43,7 @@ describe("Todo Application", function () {
   test("Marks a todo with the given ID as complete", async () => {
     let res = await agent.get("/");
     let csrfToken = extractCsrfToken(res);
-    const response = await agent.post("/todos").send({
+    await agent.post("/todos").send({
       title: "Buy milk",
       dueDate: new Date().toISOString(),
       completed: false,
@@ -55,7 +55,7 @@ describe("Todo Application", function () {
 
     const parsedGroupedResponse = JSON.parse(groupedTodoResponse.text);
     const dueTodayCount = parsedGroupedResponse.dueToday.length;
-    const lastestTodo = parsedGroupedResponse.dueToday[dueTodayCount];
+    const lastestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
 
     const markCompletedResponse = await agent
       .put(`/todos/${lastestTodo.id}`)
