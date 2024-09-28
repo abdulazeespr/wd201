@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
             dueDate: {
               [Op.lt]: new Date().toISOString().split("T")[0],
             },
+            completed: false,
           },
         });
         return overdueItems;
@@ -47,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
             dueDate: {
               [Op.eq]: new Date().toISOString().split("T")[0],
             },
+            completed: false,
           },
         });
         return dueToday;
@@ -62,6 +64,7 @@ module.exports = (sequelize, DataTypes) => {
             dueDate: {
               [Op.gt]: new Date().toISOString().split("T")[0],
             },
+            completed: false,
           },
         });
         return dueLater;
@@ -69,9 +72,22 @@ module.exports = (sequelize, DataTypes) => {
         console.log(error);
       }
     }
+    static async CompletedItems() {
+      // FILL IN HERE TO RETURN ITEMS DUE LATER
+      try {
+        const CompletedItems = await this.findAll({
+          where: {
+            completed: true,
+          },
+        });
+        return CompletedItems;
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
-    markAsCompleted() {
-      return this.update({ completed: true });
+    setCompletionStatus(value) {
+      return this.update({ completed: value });
     }
 
     deleteTodo() {
@@ -87,7 +103,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Todo",
-    },
+    }
   );
   return Todo;
 };

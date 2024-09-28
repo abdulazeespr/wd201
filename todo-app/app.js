@@ -3,17 +3,28 @@ const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
+const csrf = require("tiny-csrf");
+var cookieParser = require("cookie-parser");
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser("this is secret key"));
+app.use(csrf("123456789iamasecret987654321look", ["POST", "PUT", "DELETE"]));
 app.set("view engine", "ejs");
 
 app.get("/", async function (request, response) {
   const overdue = await Todo.overdue();
   const dueToday = await Todo.dueToday();
   const dueLater = await Todo.dueLater();
+  const CompletedItems = await Todo.CompletedItems();
   if (request.accepts("html")) {
-    return response.render("index", { overdue, dueToday, dueLater });
+    return response.render("index", {
+      overdue,
+      dueToday,
+      dueLater,
+      CompletedItems,
+      csrfToken: request.csrfToken(),
+    });
   }
   return response.json({ overdue, dueToday, dueLater });
 });
@@ -57,10 +68,12 @@ app.post("/todos", async function (request, response) {
   }
 });
 
-app.put("/todos/:id/markAsCompleted", async function (request, response) {
+app.put("/todos/:id", async function (request, response) {
   const todo = await Todo.findByPk(request.params.id);
+  const UpdateValue = request.body.completed;
+  console.log(`value is ${UpdateValue}`);
   try {
-    const updatedTodo = await todo.markAsCompleted();
+    const updatedTodo = await todo.setCompletionStatus(UpdateValue);
     return response.json(updatedTodo);
   } catch (error) {
     console.log(error);
