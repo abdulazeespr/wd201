@@ -11,6 +11,7 @@ const passport = require("passport");
 const connectEnsureLogin = require("connect-ensure-login");
 const session = require("express-session");
 const LocalStrategy = require("passport-local");
+const flash = require("connect-flash");
 
 const saltRounds = 10;
 
@@ -19,6 +20,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser("this is secret key"));
 app.use(csrf("123456789iamasecret987654321look", ["POST", "PUT", "DELETE"]));
 app.set("view engine", "ejs");
+
+app.set("views", path.join(__dirname, "views"));
+app.use(flash());
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -46,7 +50,7 @@ passport.use(
           if (result) {
             return done(null, user);
           } else {
-            return done("INVALID INFORAMTION");
+            return done(null, false, { message: "Invalid password" });
           }
         })
         .catch((error) => {
@@ -69,6 +73,11 @@ passport.deserializeUser((id, done) => {
     .catch((error) => {
       done(error, null);
     });
+});
+
+app.use(function (request, response, next) {
+  response.locals.messages = request.flash();
+  next();
 });
 
 app.get("/", (req, res) => {
@@ -117,7 +126,10 @@ app.get("/login", (req, res) => {
 
 app.post(
   "/session",
-  passport.authenticate("local", { failureRedirect: "/login" }),
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: true,
+  }),
   (req, res) => {
     res.redirect("/todos");
   }
@@ -201,7 +213,8 @@ app.put(
         UpdateValue,
         loginedInUser
       );
-      return response.json({ updatedTodo });
+      console.log(updatedTodo);
+      return response.json(updatedTodo);
     } catch (error) {
       console.log(error);
       return response.status(422).json(error);
@@ -224,7 +237,7 @@ app.delete(
     const todo = await Todo.findByPk(request.params.id);
     try {
       await todo.deleteTodo(loginedInUser);
-      return response.json(true);
+      return response.statusCode(200).json(true);
 
       // eslint-disable-next-line no-unused-vars
     } catch (error) {
