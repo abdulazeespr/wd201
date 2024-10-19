@@ -193,9 +193,7 @@ app.post(
         userId: request.user.id,
       });
 
-      return response.render("/todo", {
-        messages: request.flash("info", "hello"),
-      });
+      return response.render("/todo");
     } catch (error) {
       console.log(error);
       return response.status(422).json(error);
