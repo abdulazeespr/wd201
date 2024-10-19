@@ -192,7 +192,10 @@ app.post(
         dueDate: request.body.dueDate,
         userId: request.user.id,
       });
-      return response.redirect("/todos");
+
+      return response.render("/todo", {
+        messages: request.flash("info", "hello"),
+      });
     } catch (error) {
       console.log(error);
       return response.status(422).json(error);
@@ -236,7 +239,11 @@ app.delete(
 
     const todo = await Todo.findByPk(request.params.id);
     try {
-      await todo.deleteTodo(loginedInUser);
+      todo.destroy({
+        where: {
+          loginedInUser,
+        },
+      });
       return response.statusCode(200).json(true);
 
       // eslint-disable-next-line no-unused-vars
