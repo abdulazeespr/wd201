@@ -193,7 +193,7 @@ app.post(
         userId: request.user.id,
       });
 
-      return response.render("/todo");
+      return response.redirect("/todos");
     } catch (error) {
       console.log(error);
       return response.status(422).json(error);
@@ -228,21 +228,24 @@ app.delete(
   connectEnsureLogin.ensureLoggedIn(),
   async function (request, response) {
     const loginedInUser = request.user.id;
-    console.log("We have to delete a Todo with ID: ", request.params.id);
+
     // FILL IN YOUR CODE HERE
 
     // First, we have to query our database to delete a Todo by ID.
     // Then, we have to respond back with true/false based on whether the Todo was deleted or not.
     // response.send(true)
 
-    const todo = await Todo.findByPk(request.params.id);
     try {
-      todo.destroy({
+      await Todo.findByPk(request.params.id);
+      const todo = await Todo.destroy({
         where: {
-          loginedInUser,
+          id: request.params.id,
+          userId: loginedInUser,
         },
       });
-      return response.statusCode(200).json(true);
+      console.log("todo id" + todo);
+      console.log("We have to delete a Todo with ID: ", request.params.id);
+      return response.status(200).json(true);
 
       // eslint-disable-next-line no-unused-vars
     } catch (error) {
